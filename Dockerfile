@@ -10,6 +10,10 @@ RUN npm install
 
 # Next.js 앱 소스 파일 복사 및 빌드
 COPY . .
+
+RUN echo "NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}" > .env.local
+RUN echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}" >> .env.local
+
 RUN npm run build
 
 # 2단계: Next.js 앱을 실행하기 위한 Node.js 이미지 사용
