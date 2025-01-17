@@ -4,7 +4,8 @@ import { supabase } from "../../lib/supabaseClient";
 export const fetchTodos = async () => {
     const { data, error } = await supabase
         .from("todo")
-        .select("*");
+        .select("*")
+        .order("created_at", { ascending: false }); 
     
     if (error) { throw new Error(error.message) };
     console.log("fetch success");
