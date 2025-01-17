@@ -21,13 +21,10 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker
 
-      - name: Set environment variables
-        run: |
-          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .env.local
-          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env.local
-
       - name: Build and push to Google Container Registry
-        run: gcloud builds submit --config cloudbuild.yml .
+        run: |
+          gcloud builds submit --config cloudbuild.yml \
+            --substitutions _NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }},_NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }} .
 
       - name: Deploy to Cloud Run
         run: |

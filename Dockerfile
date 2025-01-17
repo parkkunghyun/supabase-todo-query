@@ -8,14 +8,19 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# 환경 변수 설정
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 # Next.js 앱 소스 파일 복사 및 빌드
 COPY . .
-COPY .env.local .env.local
 RUN npm run build
 
 # 2단계: Next.js 앱을 실행하기 위한 Node.js 이미지 사용
 FROM node:18
-
 
 # 작업 디렉토리 설정
 WORKDIR /app
