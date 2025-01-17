@@ -1,0 +1,6 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--platform', 'linux/amd64', '-t',  'us-central1-docker.pkg.dev/python-gcp-422006/supabase-projects/todo-query:latest', '.']
+
+images:
+  - 'us-central1-docker.pkg.dev/python-gcp-422006/supabase-projects/todo-query:latest'
