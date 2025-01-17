@@ -21,12 +21,13 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker
 
-      - name: Build and push to Google Container Registry
+      - name: Set environment variables
         run: |
-          docker build --build-arg NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} \
-                       --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }} \
-                       -t us-central1-docker.pkg.dev/python-gcp-422006/supabase-projects/todo-query:latest .
-          gcloud builds submit --config cloudbuild.yml .
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .env.local
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env.local
+
+      - name: Build and push to Google Container Registry
+        run: gcloud builds submit --config cloudbuild.yml .
 
       - name: Deploy to Cloud Run
         run: |
