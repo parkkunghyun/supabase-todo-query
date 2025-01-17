@@ -1,6 +1,20 @@
+substitutions:
+  _NEXT_PUBLIC_SUPABASE_URL: "${_NEXT_PUBLIC_SUPABASE_URL}"
+  _NEXT_PUBLIC_SUPABASE_ANON_KEY: "${_NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--platform', 'linux/amd64', '-t',  'us-central1-docker.pkg.dev/python-gcp-422006/supabase-projects/todo-query:latest', '.']
+    args:
+      - 'build'
+      - '--platform'
+      - 'linux/amd64'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/python-gcp-422006/supabase-projects/todo-query:latest'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SUPABASE_URL=$_NEXT_PUBLIC_SUPABASE_URL'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SUPABASE_ANON_KEY=$_NEXT_PUBLIC_SUPABASE_ANON_KEY'
+      - '.'
 
 images:
   - 'us-central1-docker.pkg.dev/python-gcp-422006/supabase-projects/todo-query:latest'
