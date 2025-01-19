@@ -1,47 +1,54 @@
+"use server";
+
 import { supabase } from "../../lib/supabaseClient";
 
 // fetch todos
-export const fetchTodos = async () => {
-    const { data, error } = await supabase
-        .from("todo")
-        .select("*")
-        .order("created_at", { ascending: false }); 
-    
-    if (error) { throw new Error(error.message) };
-    console.log("fetch success");
-    return data;
+export async function fetchTodos() {
+  const { data, error } = await supabase
+    .from("todo")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error(error.message);
+
+  console.log("fetch success");
+  return data;
 }
+
 // add todo
-export const addTodo = async (newTodo) => {
-    const { data, error } = await supabase
-        .from("todo")
-        .insert([{ title: newTodo }]);
-    
-    if (error) { throw new Error(error.message) };
-    console.log("add success");
-    return data;
+export async function addTodo(newTodo) {
+  const { data, error } = await supabase
+    .from("todo")
+    .insert([{ title: newTodo }]);
+
+  if (error) throw new Error(error.message);
+
+  console.log("add success");
+  return data;
 }
 
 // update todo
-export const editTodo = async (id, updates) => {
-    const { data, error } = await supabase
-        .from("todo")
-        .update(updates)
-        .eq("id", id);
-    
-    if (error) { throw new Error(error.message) };
-    console.log("edit success");
-    return data;
+export async function editTodo(id, updates) {
+  const { data, error } = await supabase
+    .from("todo")
+    .update(updates)
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  console.log("edit success");
+  return data;
 }
 
 // delete todo
-export const deleteTodo = async (id) => {
-    const { data, error } = await supabase
-        .from("todo")
-        .delete()
-        .eq("id", id);
-    
-    if (error) { throw new Error(error.message) };
-    console.log("delete success");
-    return data;
+export async function deleteTodo(id) {
+  const { data, error } = await supabase
+    .from("todo")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  console.log("delete success");
+  return data;
 }
